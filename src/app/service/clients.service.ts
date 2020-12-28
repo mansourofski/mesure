@@ -1,39 +1,41 @@
 import {Injectable} from '@angular/core';
-import {Book} from '../models/Book.model';
 import {Subject} from 'rxjs';
 import * as firebase from 'firebase';
+import {Client} from '../models/Client.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BooksService {
+export class ClientsService {
 
   constructor() {
   }
 
-  books: Book [] = [];
-  bookSubject = new Subject<Book[]>();
+  clients: Client [] = [];
+  clientSubject = new Subject<Client[]>();
 
-  emitBooks() {
-    this.bookSubject.next(this.books);
+  emitClients(): void {
+    this.clientSubject.next(this.clients);
   }
 
-  saveBooks() {
-    firebase.default.database().ref('/books').set(this.books);
+  saveClients(): void {
+    firebase.default.database().ref('/clients').set(this.clients);
   }
 
-  getBooks() {
-    firebase.default.database().ref('/books')
+  // tslint:disable-next-line:typedef
+  getClients() {
+    firebase.default.database().ref('/clients')
       .on('value', (data) => {
-        this.books = data.val() ? data.val() : [];
-        this.emitBooks();
+        this.clients = data.val() ? data.val() : [];
+        this.emitClients();
       });
   }
 
-  getSingleBook(id: number) {
+  // tslint:disable-next-line:typedef
+  getSingleClient(id: number) {
     return new Promise(
       (resolve, reject) => {
-        firebase.default.database().ref('/books/' + id).once('value').then(
+        firebase.default.database().ref('/clients/' + id).once('value').then(
           (data) => {
             resolve(data.val());
           }, (error) => {
@@ -44,15 +46,16 @@ export class BooksService {
     );
   }
 
-  createBook(newBook: Book) {
-    this.books.push(newBook);
-    this.saveBooks();
-    this.emitBooks();
+  createClient(newClient: Client): void {
+    this.clients.push(newClient);
+    this.saveClients();
+    this.emitClients();
   }
 
-  removeBook(book: Book) {
-    if (book.photo) {
-      const storageRef = firebase.default.storage().refFromURL(book.photo);
+  // tslint:disable-next-line:typedef
+  removeClient(client: Client) {
+    if (client.photo) {
+      const storageRef = firebase.default.storage().refFromURL(client.photo);
       storageRef.delete().then(
         () => {
           console.log('photo supprimée!');
@@ -63,18 +66,19 @@ export class BooksService {
         }
       );
     }
-    const bookIndexToRemove = this.books.findIndex(
-      (bookEle) => {
-        if (bookEle === book) {
+    const clientIndexToRemove = this.clients.findIndex(
+      (clientEle) => {
+        if (clientEle === client) {
           return true;
         }
       }
     );
-    this.books.splice(bookIndexToRemove, 1);
-    this.saveBooks();
-    this.emitBooks();
+    this.clients.splice(clientIndexToRemove, 1);
+    this.saveClients();
+    this.emitClients();
   }
 
+  // tslint:disable-next-line:typedef
   uploadFile(file: File) {
     return new Promise(
       (resolve, rejects) => {

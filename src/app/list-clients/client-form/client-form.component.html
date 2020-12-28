@@ -1,1 +1,48 @@
-<p>client-form works!</p>
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2"></div>
+  <h2>Enregistrer un nouveau Client</h2>
+  <form [formGroup]="clientForm" (ngSubmit)="onSaveClient()">
+
+
+   <!-- <div class="form-group">
+      <label for="gender">Gendre</label>
+      <input type="text" class="form-control" id="gender" formControlName="gender">
+    </div>
+-->
+    <!--- Select gender Block --->
+    <div class="form-group">
+      <label for="gender">Gender</label>
+      <select id="gender">
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input type="text" class="form-control" id="nom" formControlName="nom">
+    </div>
+    <div class="form-group">
+      <label for="prenom">Prénom</label>
+      <input type="text" class="form-control" id="prenom" formControlName="prenom">
+    </div>
+    <div class="form-group">
+      <label for="dateNaissance">Date de Naissance</label>
+      <input type="text" class="form-control" id="dateNaissance" formControlName="dateNaissance">
+    </div>
+    <div class="form-group">
+      <label for="adresse">Adresse</label>
+      <input type="text" class="form-control" id="adresse" formControlName="adresse">
+    </div>
+    <div class="form-group">
+      <h4>Ajouter une Photo</h4>
+      <input type="file" (change)="detectFiles($event)" class="form-control" accept="image/*">
+      <p class="text-success" *ngIf="fileUploaded"> Fichier chargé!</p>
+    </div>
+    <button class="btn btn-success"
+            [disabled]="clientForm.invalid || fileIsUploading"
+            type="submit">Enregister
+    </button>
+  </form>
+</div>

@@ -1,1 +1,11 @@
-<p>single-client works!</p>
+<div class="row">
+  <div class="col-xs-12">
+    <img style="max-width: 400px" *ngIf="client.photo" [src]="client.photo">
+    <!--<img [src]="client.photo"/>-->
+    <h1>{{client.prenom}} {{client.nom}}</h1>
+    <h1>{{client.gender}}</h1>
+    <h1>{{client.dateNaissance}}</h1>
+    <h1>{{client.adresse}}</h1>
+    <button class="btn btn-default" (click)="onBack()">Retour</button>
+  </div>
+</div>

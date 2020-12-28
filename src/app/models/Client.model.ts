@@ -1,6 +1,10 @@
-export class Book {
+export class Client {
   photo: string;
 
-  constructor(public title: string, public author: string) {
+  constructor(public gender: string,
+              public nom: string,
+              public prenom: string,
+              public dateNaissance: string,
+              public adresse: string) {
   }
 }
